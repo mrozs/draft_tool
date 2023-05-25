@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
 import { Player } from './player';
 import { Draft } from '../draft';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http'
 import { PuntCategories } from '../punt.categories';
 import { PlayerAdapter } from './player.adapter';
 import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class PlayerService {
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getPlayes(draft: Draft, puntCategories: PuntCategories): Promise<Player[]> {
     let url = (document.location.href.indexOf("ninja") == -1 ? `http://localhost/Teammate`: ``) +  `/Ranking/GetRankForLeagueParams` +
@@ -21,12 +21,12 @@ export class PlayerService {
       .map((res: Response) => {
         
         let players = new Array<Player>();
-        let rawPlayers = JSON.parse(res.json());
-        for (let rankResult of rawPlayers) {
+        // let rawPlayers = JSON.parse(res.json());
+       /*  for (let rankResult of rawPlayers) {
           let rawPlayer = rankResult.RankResult;  
           var player = PlayerAdapter.adapt(rawPlayer, rankResult.IncludingUserProjections, rankResult.PuntValue);
           players.push(player);
-        }
+        } */
 
         return players;
       })

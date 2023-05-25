@@ -1,16 +1,15 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DraftResult } from './draft.result';
+import { BaseService } from '../../base.service';
+import { Draft } from '../draft';
 import { Player } from '../player/player';
 import { TeamDefinition } from '../team.definition';
-import { Http, Response } from '@angular/http';
-import { Draft } from '../draft';
-import { TeamPlayers } from '../team.players';
-import { BaseService } from '../../base.service';
+import { DraftResult } from './draft.result';
 
 @Injectable()
 export class DraftResultService extends BaseService {
     private draftResults = new Array<DraftResult>();
-    constructor(private http: Http) { 
+    constructor(private http: HttpClient) { 
         super();
     }
 
@@ -46,7 +45,7 @@ export class DraftResultService extends BaseService {
         .map((res: Response) => {
             let unknownPlayers = new Array<number>();
             let picks = new Array<DraftResult>();
-            for (let pick of res.json()) {
+           /*  for (let pick of res.json()) {
                 let player = players.filter(x => x.id == pick.PlayerId)[0];
                 let team = teamDefinitions.filter(x => x.id == pick.Team)[0];
                 if (!player) {
@@ -60,7 +59,7 @@ export class DraftResultService extends BaseService {
                 let draftResult = new DraftResult(pick.PickNumber, player, team)
                 draftResult.price = pick.Cost;
                 picks.push(draftResult);
-            }
+            } */
             if (unknownPlayers.length) {
                 console.log(`brak graczy ${unknownPlayers}`)
             }
@@ -70,7 +69,7 @@ export class DraftResultService extends BaseService {
         toPromise();
     }
 
-    getDraftResult(draft: Draft, players: Array<Player>, teamDefinitions: Array<TeamDefinition>): Promise<Array<DraftResult>> {
+    getDraftResult(draft: Draft, players: Array<Player>, teamDefinitions: Array<TeamDefinition>): any /* Promise<Array<DraftResult>> */ {
         let url;
 
         if (draft.type == 'espn-custom') {
@@ -94,7 +93,7 @@ export class DraftResultService extends BaseService {
             .map((res: Response) => {
                 let unknownPlayers = new Array<number>();
                 let picks = new Array<DraftResult>();
-                for (let pick of res.json()) {
+                /* for (let pick of await res.json()) {
                     let player = players.filter(x => x.id == pick.PlayerId)[0];
                     let team = teamDefinitions.filter(x => x.id == pick.Team)[0];
                     if (!player) {
@@ -108,7 +107,7 @@ export class DraftResultService extends BaseService {
                     let draftResult = new DraftResult(pick.PickNumber, player, team)
                     draftResult.price = pick.Cost;
                     picks.push(draftResult);
-                }
+                } */
                 if (unknownPlayers.length) {
                     console.log(`brak graczy ${unknownPlayers}`)
                 }

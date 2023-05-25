@@ -1,11 +1,7 @@
 ﻿import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { Location } from '@angular/common';
 import { DashboardComponent } from './app.component';
-
-
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { DraftResultService } from './dashboard/draft.result/draft.result.service';
 import { PlayerService } from './dashboard/player/player.service';
 import { DraftService } from './dashboard/draft.service';
@@ -13,6 +9,7 @@ import { LeaqueModelService } from './dashboard/leaque.model/leaque.model.servic
 import { PositiveNumberPipe } from './positive.number.filter'
 import { PlayerFilter } from './player.filter';
 import { OrderByPipe } from './orderBy'
+import { NgModule } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -24,7 +21,7 @@ import { OrderByPipe } from './orderBy'
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [PlayerService, DraftService, LeaqueModelService, DraftResultService],
   bootstrap: [DashboardComponent]

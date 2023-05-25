@@ -1,6 +1,6 @@
 import { LeaqueModelCategory } from './leaque.model.category'
 import { LeaqueModelCategoryRank } from './leaque.model.category.rank'
-import { Category } from './../category';
+import { Category } from '../category.model';
 
 export class LeaqueModel {
     private leaqueModelCategories = new Array<LeaqueModelCategory>();

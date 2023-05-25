@@ -1,5 +1,5 @@
 import { LeaqueModelCategoryRank } from './leaque.model.category.rank'
-import { Category } from './../category';
+import { Category } from '../category.model';
 
 export class LeaqueModelCategory {
     private category: Category;
