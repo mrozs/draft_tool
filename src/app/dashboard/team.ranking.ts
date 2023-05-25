@@ -1,5 +1,5 @@
 import { Player } from './player/player'
-import { Category } from './category'
+import { Category } from './category.model'
 
 export class CategoryValue {
     constructor(public category: Category, public value: number) { }

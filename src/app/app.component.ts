@@ -1,26 +1,23 @@
-﻿import { Component, NgZone, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Player } from './dashboard/player/player'
-import { Draft } from './dashboard/draft'
-import { Category } from './dashboard/category';
-import { PuntCategories } from './dashboard/punt.categories';
-import { RateValue } from './dashboard/rate.value'
-import { PlayerService } from './dashboard/player/player.service';
-import { DraftService } from './dashboard/draft.service';
-import { DraftResultService } from './dashboard/draft.result/draft.result.service';
-import { DraftResults } from './dashboard/draft.result/draft.results'
-import { DraftResult } from './dashboard/draft.result/draft.result'
-import { LeaqueModelService } from './dashboard/leaque.model/leaque.model.service';
-import { PlayerCombinationsFinder } from './dashboard/combination/player.combinations.finder';
-import { PlayerCombinations } from './dashboard/combination/player.combinations';
-import { TeamRanking } from './dashboard/team.ranking';
-import { TeamPlayers } from './dashboard/team.players';
-import { Team } from './dashboard/team';
-import { TeamDefinition } from './dashboard/team.definition'
-import { PlayerCombinationsAdapter } from './dashboard/combination/player.combinations.adapter';
-import * as RankingCombinationCalculator from 'worker-loader!./../web-workers/web-worker.bundle.js';
+﻿import { Component, NgZone } from '@angular/core';
 import { Cookie } from 'ng2-cookies';
-import { ContextMenuComponent } from 'ngx-contextmenu';
+import { Observable } from 'rxjs';
+import * as RankingCombinationCalculator from 'worker-loader!./../web-workers/web-worker.bundle.js';
+import { PlayerCombinations } from './dashboard/combination/player.combinations';
+import { PlayerCombinationsAdapter } from './dashboard/combination/player.combinations.adapter';
+import { Draft } from './dashboard/draft';
+import { DraftResult } from './dashboard/draft.result/draft.result';
+import { DraftResultService } from './dashboard/draft.result/draft.result.service';
+import { DraftResults } from './dashboard/draft.result/draft.results';
+import { DraftService } from './dashboard/draft.service';
+import { LeaqueModelService } from './dashboard/leaque.model/leaque.model.service';
+import { Player } from './dashboard/player/player';
+import { PlayerService } from './dashboard/player/player.service';
+import { PuntCategories } from './dashboard/punt.categories';
+import { RateValue } from './dashboard/rate.value';
+import { Team } from './dashboard/team';
+import { TeamDefinition } from './dashboard/team.definition';
+import { TeamPlayers } from './dashboard/team.players';
+import { TeamRanking } from './dashboard/team.ranking';
 
 @Component({
   selector: 'app-component',
@@ -128,9 +125,11 @@ export class DashboardComponent {
         this.recalculate();
 
         if (!this.draft.custom) {
-          Observable.timer(0, 60000).subscribe(x => {
+
+          // TODO
+          /* Observable.timer(0, 60000).subscribe(x => {
             this.refreshDraftResult();
-          });
+          }); */
         }
         else if((this.draft.leagueKey != "custom" && this.draft.leagueKey.startsWith("custom")) 
           || this.draft.type == "self" || this.draft.type.indexOf("custom")>-1) {

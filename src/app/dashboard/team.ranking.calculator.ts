@@ -1,4 +1,4 @@
-import { Category } from './Category';
+import { Category } from './category.model';
 import { TeamRanking, CategoryValue } from './team.ranking';
 import { LeaqueModel } from './leaque.model/leaque.model';
 import { LeaqueModelCategoryRank } from './leaque.model/leaque.model.category.rank';

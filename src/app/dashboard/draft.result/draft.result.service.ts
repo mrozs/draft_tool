@@ -1,11 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DraftResult } from './draft.result';
+import { BaseService } from '../../base.service';
+import { Draft } from '../draft';
 import { Player } from '../player/player';
 import { TeamDefinition } from '../team.definition';
-import { HttpClient} from '@angular/common/http'
-import { Draft } from '../draft';
-import { TeamPlayers } from '../team.players';
-import { BaseService } from '../../base.service';
+import { DraftResult } from './draft.result';
 
 @Injectable()
 export class DraftResultService extends BaseService {
@@ -70,7 +69,7 @@ export class DraftResultService extends BaseService {
         toPromise();
     }
 
-    getDraftResult(draft: Draft, players: Array<Player>, teamDefinitions: Array<TeamDefinition>): Promise<Array<DraftResult>> {
+    getDraftResult(draft: Draft, players: Array<Player>, teamDefinitions: Array<TeamDefinition>): any /* Promise<Array<DraftResult>> */ {
         let url;
 
         if (draft.type == 'espn-custom') {

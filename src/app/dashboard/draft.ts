@@ -1,5 +1,4 @@
-import { Category } from './category'
-import { Team } from './team';
+import { Category } from './category.model';
 import { TeamDefinition } from './team.definition';
 
 export class Draft {   
@@ -8,7 +7,7 @@ export class Draft {
     type: string;
     activeTeamSize: number;
     categoriesName: string;
-    categories = new Array<Category>();
+    categories: Category[];
     valueCategories = new Array<any>();
     categoriesFlags: string;
     period: number;

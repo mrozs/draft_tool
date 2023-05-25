@@ -1,4 +1,4 @@
-import { Category } from './category'
+import { Category } from './category.model'
 import { Categories } from './categories';
 
 export class PuntCategories {

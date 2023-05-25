@@ -1,11 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Cookie } from 'ng2-cookies';
+import * as queryString from 'query-string';
+import { Categories } from './categories';
+import { Category } from './category.model';
 import { Draft } from './draft';
 import { TeamDefinition } from './team.definition';
-import { Categories } from './categories';
-import { Category } from './category'
-import { Cookie } from 'ng2-cookies';
-import { HttpClient} from '@angular/common/http'
-import * as queryString from 'query-string';
 
 @Injectable()
 export class DraftService {

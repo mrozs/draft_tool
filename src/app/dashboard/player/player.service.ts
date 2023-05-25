@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
 import { Player } from './player';
 import { Draft } from '../draft';
 import { HttpClient} from '@angular/common/http'
 import { PuntCategories } from '../punt.categories';
 import { PlayerAdapter } from './player.adapter';
 import 'rxjs/add/operator/map';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class PlayerService {
