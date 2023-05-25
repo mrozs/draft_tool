@@ -1,0 +1,22 @@
+{
+    "/league/leagueModel": {
+        "target":  {
+            "host": "www.fb-ninja.com",
+            "protocol": "http:",
+            "port": 80
+          },
+          "secure": false,
+          "changeOrigin": true,
+          "logLevel": "info"
+    },
+    "/Ranking/GetRankForLeagueParams": {
+        "target":  {
+            "host": "www.fb-ninja.com",
+            "protocol": "http:",
+            "port": 80
+          },
+          "secure": false,
+          "changeOrigin": true,
+          "logLevel": "info"
+    }
+}

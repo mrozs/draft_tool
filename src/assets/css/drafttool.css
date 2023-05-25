@@ -1,0 +1,574 @@
+﻿body {
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+
+.dropdown-teams .dropdown-menu > li > a {
+  padding: 5px 15px;
+}
+
+.navbar-brand {
+  margin-top: 5px;
+}
+
+.nav-pills > li > a {
+  background-color: #333 !important;
+}
+
+.nav-pills > li.active > a {
+  background-color: #000 !important;
+}
+
+.navbar-default {
+  background-color: #333;
+}
+
+.dataTables_wrapper {
+  overflow:initial;
+}
+
+#loader{
+  background-color: black;
+  opacity: 0.8;
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom: 0;
+  z-index: 1001;
+}
+
+
+.spinner {
+  margin: 100px auto 0;
+  width: 70px;
+  text-align: center;
+
+  z-index: 10002;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -60px;
+  margin-left: -60px;  
+  opacity: 1;
+}
+
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: white;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+
+.change-pick {
+  cursor: pointer
+}
+
+.combinations td{
+  border-color: #fff !important;
+}
+
+.combinations th{
+  border-color: #fff !important;
+}
+
+.combinations .player {
+  position:relative;
+  padding-left:5px;
+}
+
+.combinations th.player {
+  padding-left:20px;
+}
+
+.combinations .player-line {
+  position:absolute;
+  top:0px;
+  bottom:-1px;
+  left:5px;
+  width:1px;
+  background-color: #333 ;
+}
+
+.combinations .player .arrow {
+  margin-bottom:3px;
+}
+
+.combinations-margin td {
+  border-color: #fff;
+}
+
+.combinations-margin td:first-child {
+  border-right: 1px solid #fff !important; 
+}
+
+tr.combinations:hover, tr.combinations-margin:hover {
+  background-color: white !important;
+}
+
+.combinations .border-left {
+  border-left: 1px solid #ddd !important;
+}
+
+.combination .border-bottom {
+  border-bottom: 1px solid #ddd !important;
+}
+
+.combinations .border-right {
+  border-right: 1px solid #ddd !important;
+}
+
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align glyph */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.results{
+	font-size:18px;
+	font-weight:bold;
+	margin-right:15px;
+	margin-left:3px;
+}
+
+.choises{
+	font-size:12px;
+	font-weight:bold;
+	color:#5396ce;
+}
+
+#punt-categories-buttons {
+  
+}
+
+
+
+.table-noborder {
+  border: none;
+}
+
+.table-noborder > thead > tr > th,
+.table-noborder > tbody > tr > th,
+.table-noborder > tfoot > tr > th,
+.table-noborder > thead > tr > td,
+.table-noborder > tbody > tr > td,
+.table-noborder > tfoot > tr > td {
+  border: none;
+}
+
+th {
+  text-align: left;
+}
+
+
+.nav-pills > li {
+  float: right;
+    color: #fff;
+  background-color: #f8f8f8;
+  border:none;
+}
+
+.nav-pills > li:last-child  {
+  border-right:0px;
+}
+
+.nav-pills > li > a {
+ /* border-radius: 4px;*/
+  border-radius: 0px;
+  color: #ccc;
+/*  background-color: #428bca;*/
+  background-color: #2c3e50;
+  padding:20px 10px 20px 10px;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  color: #fff;
+  background-color: #142434;
+  /*background-color: #08477d;*/
+  
+}
+
+.nav-pills.inside > li > a {
+ /* border-radius: 4px;*/
+  border-radius: 0px;
+  color: #ccc;
+/*  background-color: #428bca;*/
+  background-color: #f8f8f8;
+}
+
+.nav-pills.inside > li.active > a,
+.nav-pills.inside > li.active > a:hover,
+.nav-pills.inside > li.active > a:focus {
+
+  color: #333;
+ /* background-color: #428bca;*/
+  background-color: #e9f3fc;
+  
+}
+
+.hiddenRow {
+    display:none;
+    padding: 0 !important;
+}
+
+.td-inner{
+	padding-left:6px;
+}
+
+.td-inner > a{
+	color:#ccc;
+
+}
+
+.td-green > a{
+	color:#18ff18;
+
+}
+
+.td-red > a {
+	color:#ff2f2f;
+
+}
+
+.table-hover > tbody > tr.disabled-row:hover > td,
+.disabled-row > td {
+    background-color: #ccc;
+	color:#999;
+}
+
+.table-hover > tbody > tr.targeted-row:hover > td,
+.targeted-row > td {
+    background-color: #ebffeb;
+}
+
+#myModal p{
+	font-size:12px;
+}
+
+
+.table > thead > tr > td.over100,
+.table > tbody > tr > td.over100,
+.table > tfoot > tr > td.over100,
+.table > thead > tr > th.over100,
+.table > tbody > tr > th.over100,
+.table > tfoot > tr > th.over100,
+.table > thead > tr.over100 > td,
+.table > tbody > tr.over100 > td,
+.table > tfoot > tr.over100 > td,
+.table > thead > tr.over100 > th,
+.table > tbody > tr.over100 > th,
+.table > tfoot > tr.over100 > th {
+  background-color: #18ff18;
+  opacity:1;
+}
+.table > thead > tr > td.over80,
+.table > tbody > tr > td.over80,
+.table > tfoot > tr > td.over80,
+.table > thead > tr > th.over80,
+.table > tbody > tr > th.over80,
+.table > tfoot > tr > th.over80,
+.table > thead > tr.over80 > td,
+.table > tbody > tr.over80 > td,
+.table > tfoot > tr.over80 > td,
+.table > thead > tr.over80 > th,
+.table > tbody > tr.over80 > th,
+.table > tfoot > tr.over80 > th {
+  background-color: #44ff44;
+  opacity:1;
+}
+
+.table > thead > tr > td.over60,
+.table > tbody > tr > td.over60,
+.table > tfoot > tr > td.over60,
+.table > thead > tr > th.over60,
+.table > tbody > tr > th.over60,
+.table > tfoot > tr > th.over60,
+.table > thead > tr.over60 > td,
+.table > tbody > tr.over60 > td,
+.table > tfoot > tr.over60 > td,
+.table > thead > tr.over60 > th,
+.table > tbody > tr.over60 > th,
+.table > tfoot > tr.over60 > th {
+  background-color: #67ff67;
+  opacity:1;
+}
+
+.table > thead > tr > td.over40,
+.table > tbody > tr > td.over40,
+.table > tfoot > tr > td.over40,
+.table > thead > tr > th.over40,
+.table > tbody > tr > th.over40,
+.table > tfoot > tr > th.over40,
+.table > thead > tr.over40 > td,
+.table > tbody > tr.over40 > td,
+.table > tfoot > tr.over40 > td,
+.table > thead > tr.over40 > th,
+.table > tbody > tr.over40 > th,
+.table > tfoot > tr.over40 > th {
+  background-color: #99ff99;
+  opacity:1;
+}
+
+.table > thead > tr > td.over20,
+.table > tbody > tr > td.over20,
+.table > tfoot > tr > td.over20,
+.table > thead > tr > th.over20,
+.table > tbody > tr > th.over20,
+.table > tfoot > tr > th.over20,
+.table > thead > tr.over20 > td,
+.table > tbody > tr.over20 > td,
+.table > tfoot > tr.over20 > td,
+.table > thead > tr.over20 > th,
+.table > tbody > tr.over20 > th,
+.table > tfoot > tr.over20 > th {
+  background-color: #cfffcf;
+  opacity:1;
+}
+
+.table > thead > tr > td.over10,
+.table > tbody > tr > td.over10,
+.table > tfoot > tr > td.over10,
+.table > thead > tr > th.over10,
+.table > tbody > tr > th.over10,
+.table > tfoot > tr > th.over10,
+.table > thead > tr.over10 > td,
+.table > tbody > tr.over10 > td,
+.table > tfoot > tr.over10 > td,
+.table > thead > tr.over10 > th,
+.table > tbody > tr.over10 > th,
+.table > tfoot > tr.over10 > th {
+  background-color: #ebffeb;
+  opacity:1;
+}
+
+.table > thead > tr > td.under100,
+.table > tbody > tr > td.under100,
+.table > tfoot > tr > td.under100,
+.table > thead > tr > th.under100,
+.table > tbody > tr > th.under100,
+.table > tfoot > tr > th.under100,
+.table > thead > tr.under100 > td,
+.table > tbody > tr.under100 > td,
+.table > tfoot > tr.under100 > td,
+.table > thead > tr.under100 > th,
+.table > tbody > tr.under100 > th,
+.table > tfoot > tr.under100 > th {
+  background-color: #ff2f2f;
+  opacity:1;
+}
+.table > thead > tr > td.under80,
+.table > tbody > tr > td.under80,
+.table > tfoot > tr > td.under80,
+.table > thead > tr > th.under80,
+.table > tbody > tr > th.under80,
+.table > tfoot > tr > th.under80,
+.table > thead > tr.under80 > td,
+.table > tbody > tr.under80 > td,
+.table > tfoot > tr.under80 > td,
+.table > thead > tr.under80 > th,
+.table > tbody > tr.under80 > th,
+.table > tfoot > tr.under80 > th {
+  background-color: #ff5757;
+  opacity:1;
+}
+
+.table > thead > tr > td.under60,
+.table > tbody > tr > td.under60,
+.table > tfoot > tr > td.under60,
+.table > thead > tr > th.under60,
+.table > tbody > tr > th.under60,
+.table > tfoot > tr > th.under60,
+.table > thead > tr.under60 > td,
+.table > tbody > tr.under60 > td,
+.table > tfoot > tr.under60 > td,
+.table > thead > tr.under60 > th,
+.table > tbody > tr.under60 > th,
+.table > tfoot > tr.under60 > th {
+  background-color: #ff7676;
+  opacity:1;
+}
+
+.table > thead > tr > td.under40,
+.table > tbody > tr > td.under40,
+.table > tfoot > tr > td.under40,
+.table > thead > tr > th.under40,
+.table > tbody > tr > th.under40,
+.table > tfoot > tr > th.under40,
+.table > thead > tr.under40 > td,
+.table > tbody > tr.under40 > td,
+.table > tfoot > tr.under40 > td,
+.table > thead > tr.under40 > th,
+.table > tbody > tr.under40 > th,
+.table > tfoot > tr.under40 > th {
+  background-color: #ff9494;
+  opacity:1;
+}
+
+.table > thead > tr > td.under20,
+.table > tbody > tr > td.under20,
+.table > tfoot > tr > td.under20,
+.table > thead > tr > th.under20,
+.table > tbody > tr > th.under20,
+.table > tfoot > tr > th.under20,
+.table > thead > tr.under20 > td,
+.table > tbody > tr.under20 > td,
+.table > tfoot > tr.under20 > td,
+.table > thead > tr.under20 > th,
+.table > tbody > tr.under20 > th,
+.table > tfoot > tr.under20 > th {
+  background-color: #ffb2b2;
+  opacity:1;
+}
+
+.table > thead > tr > td.under10,
+.table > tbody > tr > td.under10,
+.table > tfoot > tr > td.under10,
+.table > thead > tr > th.under10,
+.table > tbody > tr > th.under10,
+.table > tfoot > tr > th.under10,
+.table > thead > tr.under10 > td,
+.table > tbody > tr.under10 > td,
+.table > tfoot > tr.under10 > td,
+.table > thead > tr.under10 > th,
+.table > tbody > tr.under10 > th,
+.table > tfoot > tr.under10 > th {
+  background-color: #ffeeee;
+  opacity:1;
+}
+
+.table > thead > tr > td.about0,
+.table > tbody > tr > td.about0,
+.table > tfoot > tr > td.about0,
+.table > thead > tr > th.about0,
+.table > tbody > tr > th.about0,
+.table > tfoot > tr > th.about0,
+.table > thead > tr.about0 > td,
+.table > tbody > tr.about0 > td,
+.table > tfoot > tr.about0 > td,
+.table > thead > tr.about0 > th,
+.table > tbody > tr.about0 > th,
+.table > tfoot > tr.about0 > th {
+  background-color: #ffffff;
+  opacity:1;
+}
+
+.table > thead > tr > td.main,
+.table > tbody > tr > td.main,
+.table > tfoot > tr > td.main,
+.table > thead > tr > th.main,
+.table > tbody > tr > th.main,
+.table > tfoot > tr > th.main,
+.table > thead > tr.main > td,
+.table > tbody > tr.main > td,
+.table > tfoot > tr.main> td,
+.table > thead > tr.main > th,
+.table > tbody > tr.main > th,
+.table > tfoot > tr.main > th {
+  background-color: #fcf8e3;
+  opacity:1;
+}
+
+a .glyph{
+	
+}
+
+.btn {
+
+  font-size: 11px;
+ 
+}
+
+.btn-default {
+  color: #333;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn-default:hover,
+.btn-default:focus,
+.btn-default.focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  color: #333;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+
+.dropdown-menu {
+  font-size: 11px;
+  background-color: #fff;
+
+}
+
+.dropdown-menu > li > a {
+  color: #333;
+  border-bottom:1px solid #ccc;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  color: #333;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  color: #333;
+  text-decoration: none;
+  background-color: #fff;
+  outline: 0;
+}
+
+.dropdown{
+	  min-width:120px;
+}

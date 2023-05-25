@@ -1,0 +1,634 @@
+﻿<nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+        aria-controls="navbar">
+         <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="javascript:void(0)"><img src="assets/images/fbninja-logo.png" alt="fb-ninja logo"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav nav-pills" role="tablist" style="font-size:14px;">
+        <li *ngIf="!draft.custom" role="presentation"><a href="javascript:void(0)" title="refresh" (click)="refreshDraftResult()">Refresh</a></li>
+        <li role="presentation"><a href="#draft-result" aria-controls="profile" role="tab" data-toggle="tab">Draft results</a></li>
+        <li role="presentation"><a href="#standings" aria-controls="profile" role="tab" data-toggle="tab">Standings</a></li>
+        <li role="presentation"><a href="#my-team" aria-controls="profile" role="tab" data-toggle="tab">My Team</a></li>
+        <li role="presentation" class="active"><a href="#drafttool" aria-controls="home" role="tab" data-toggle="tab">Draft Tool</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div *ngIf="loading" id="loader">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="drafttool">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-xs-12">
+          <div *ngIf="showWelcome" class="alert alert-warning alert-dismissible" role="alert">
+            <button (click)="closeWelcomeScreen()" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong><span style="font-size:26px;">Welcome to the draft tool!</span></strong><br />We are happy to give you
+            the most advanced fantasy basketball draft tool for rotisserie available on the market! It guides you through
+            the draft and helps decide which players to draft. Results of your team largely depend on how your players fit
+            together. Our software is checking that and estimates which player combinations are best for your team. Based
+            on that information you can adjust your strategy during the draft, choose optimal combination of players and
+            maximize your chances to win.
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-md-3">
+          <div style="background-color:#e7e7e7; padding:5px;">
+            <h5>
+              Type of league <a class="pull-right" style="font-size:12px;" data-toggle="collapse" href="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+                show details
+              </a>
+            </h5>
+          </div>
+          <p>
+            Total Points: <span class="results">{{ myTeam.ranking.totalPoints }}</span> Place: <span class="results">{{ myTeam.ranking.place }}</span>
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-6">
+          <div style="background-color:#e7e7e7; padding:5px;">
+            <h5>
+              Settings <a class="pull-right" style="font-size:12px;" data-backdrop="static" data-toggle="modal" data-target="#settings-modal">
+                show settings
+              </a>
+            </h5>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-noborder table-condensed">
+              <tr>
+                <th>Period</th>
+                <th>Include my projections</th>
+                <th>Exclude Players</th>
+                <th>Punt Categories</th>
+              </tr>
+              <tr>
+                <td>
+                  <span *ngIf="draft.period == 0">Fb-ninja projections</span>
+                  <span *ngIf="draft.period == 1">2018/2019</span>
+                  <span *ngIf="draft.period == 2">Last 3 months</span>
+                  <span *ngIf="draft.period == 3">Last 2 months</span>
+                </td>
+                <td [ngSwitch]="includeMyProjections">
+                  <a *ngSwitchCase="0" href="javascript:void(0)" class="choises" data-toggle="modal" data-target="#settings-modal">no</a>
+                  <a *ngSwitchCase="1" href="javascript:void(0)" class="choises" data-toggle="modal" data-target="#settings-modal">yes</a>
+                </td>
+                <td [ngSwitch]="excludePlayers">
+                  <a *ngSwitchCase="0" href="javascript:void(0)" class="choises" data-toggle="modal" data-target="#settings-modal">no</a>
+                  <a *ngSwitchCase="1" href="javascript:void(0)" class="choises" data-toggle="modal" data-target="#settings-modal">yes</a>
+                </td>
+                <td>
+                  <span *ngIf="puntCategories.hasAny()"><a href="javascript:void(0)" class="choises" data-toggle="modal"
+                    data-target="#settings-modal">yes</a> ({{puntCategories.list()}})</span>
+                  <span *ngIf="!puntCategories.hasAny()"><a href="javascript:void(0)" class="choises" data-toggle="modal"
+                    data-target="#settings-modal">no</a></span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+          <div style="background-color:#e7e7e7; padding:5px;">
+            <h5>
+              Filter
+            </h5>
+          </div>
+          <div class="inner-addon left-addon" style="margin-top:4px;">
+            <i class="glyphicon glyphicon-search"></i>
+            <input type="text" class="form-control" (keyup.enter)="search($event.target.value)" placeholder="example alt or durant or pf"
+            />
+          </div>
+        </div>
+        <div style="clear:both;"></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="collapse" id="collapseExample" style="padding:5px;">
+            <div class="table-responsive">
+              <table class="table table-bordered" style="text-align:center;">
+                <tr>
+                  <th style="text-align:left;">My results</th>
+                  <ng-container *ngFor="let category of draft.categories">
+                    <th>{{ category.name }}</th>
+                  </ng-container>
+                  <th></th>
+                  <th></th>
+                </tr>
+                <tr>
+                  <td style="text-align:left;">Average</td>
+                  <ng-container *ngFor="let categoryValue of myTeam.ranking.average">
+                    <th title="{{ categoryValue.value }}">{{ categoryValue.value | number: '1.2-2' }}</th>
+                  </ng-container>
+                  <th>Roto points</th>
+                  <th>Rank</th>
+                </tr>
+                <tr style="font-weight:bold;">
+                  <td style="text-align:left; background-color: #a2ff9d">Ninja model projected standings</td>
+                  <ng-container *ngFor="let categoryValue of myTeam.ranking.projectedFantasyPoints">
+                    <th>{{ categoryValue.value }}</th>
+                  </ng-container>
+                  <td style="background-color: #a2ff9d">{{ myTeam.ranking.totalPoints }}</td>
+                  <td style="background-color: #a2ff9d">{{ myTeam.ranking.place }}</td>
+                </tr>
+                <tr style="font-weight:bold;">
+                  <th style="text-align:left;">Actual standings</th>
+                  <ng-container *ngFor="let categoryValue of myInternalRanking.ranking.projectedFantasyPoints">
+                    <th>{{ categoryValue.value }}</th>
+                  </ng-container>
+                  <td>{{ myInternalRanking.ranking.totalPoints }}</td>
+                  <td>{{ myInternalRanking.ranking.place }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container -->
+    <div class="container">
+      <div id="rankTable_wrapper" class="dataTables_wrapper no-footer table-responsive">
+        <table class="table table-bordered dataTable table-hover" id="rankTable" style="font-size: 11px;">
+          <tr style="color: white; background-color: #e7e7e7;">
+            <th *ngIf="draft.showRankingPrice" style="width:70px">
+              <a href="javascript:void(0)"> Price </a>
+            </th>
+            <th *ngIf="draft.custom">
+              <a href="javascript:void(0)"> Team </a>
+            </th>
+            <th *ngIf="excludePlayers" class="sorting_asc" tabindex="0" aria-controls="rankTable" aria-sort="ascending" aria-label="RANK: activate to sort column ascending">
+              <a href="javascript:void(0)" title="fb-ninja player rank according to selected criterias"> Exc </a>
+            </th>
+            <th *ngIf="targetPlayers" class="sorting_asc" tabindex="0" aria-controls="rankTable" aria-sort="ascending" aria-label="RANK: activate to sort column ascending">
+              <a href="javascript:void(0)" title="fb-ninja player rank according to selected criterias"> Target </a>
+            </th>
+            <th class="sorting_asc main" tabindex="0" aria-controls="rankTable" aria-sort="ascending" aria-label="RANK : activate to sort column ascending">
+              <a href="javascript:void(0)" title="fb-ninja player rank according to selected criterias" (click)="sortBy('averageGain')"> Average Gain </a>
+            </th>
+            <th class="sorting" tabindex="0" aria-controls="rankTable" aria-label="VALUE: activate to sort column ascending">
+              <a href="javascript:void(0)" title="fb-ninja player's value according to selected criterias" (click)="sortBy('value')"> value </a>
+            </th>
+            <th *ngIf="puntCategories.hasAny()" class="sorting_asc" tabindex="0" aria-controls="rankTable" aria-sort="ascending" aria-label="RANK: activate to sort column ascending">
+              <a href="javascript:void(0)" title="fb-ninja player rank according to selected criterias" (click)="sortBy('valuePunt')"> Punt </a>
+            </th>
+            <th *ngIf="puntCategories.hasAny()" class="sorting_asc" tabindex="0" aria-controls="rankTable" aria-sort="ascending" aria-label="RANK: activate to sort column ascending">
+              <a href="javascript:void(0)" title="fb-ninja player rank according to selected criterias" (click)="sortBy('puntGain')"> p-v </a>
+            </th>
+
+            <th *ngIf="draft.showRankingPrice" style="width:50px" class="sorting_asc" tabindex="0" aria-controls="rankTable" aria-sort="ascending" aria-label="RANK: activate to sort column ascending">
+              <a href="javascript:void(0)" title="average draft price" (click)="sortBy('draftPrice')"> avg$ </a>
+            </th>
+            <th *ngIf="!draft.showRankingPrice" style="width:50px" class="sorting_asc" tabindex="0" aria-controls="rankTable" aria-sort="ascending" aria-label="RANK: activate to sort column ascending">
+              <a href="javascript:void(0)" title="average draft position" (click)="sortBy('adp')"> adp </a>
+            </th>
+
+            <th class="sorting" tabindex="0" aria-controls="rankTable" aria-label="NAME: activate to sort column ascending">
+              <a href="javascript:void(0)" title="player's name" (click)="sortBy('name')"> name </a>
+            </th>
+            <th class="sorting" tabindex="0" aria-controls="rankTable" aria-label="NAME: activate to sort column ascending">
+              <a href="javascript:void(0)" title="teams's name" (click)="sortBy('team')"> team </a>
+            </th>
+            <th class="sorting" tabindex="0" aria-controls="rankTable" aria-label="NAME: activate to sort column ascending">
+              <a href="javascript:void(0)" title="player's name" (click)="sortBy('position')"> position </a>
+            </th>
+            <th class="sorting" tabindex="0" aria-controls="rankTable" aria-label="GAMES: activate to sort column ascending">
+              <a href="javascript:void(0)" title="games played in selected period" (click)="sortBy('games')"> g </a>
+            </th>
+            <th class="sorting" tabindex="0" aria-controls="rankTable" aria-label="MINS: activate to sort column ascending">
+              <a href="javascript:void(0)" title="minutes played per game" (click)="sortBy('mpg')"> mpg </a>
+            </th>
+            <ng-container *ngFor="let category of draft.categories">
+              <th class="sorting" tabindex="0" aria-controls="rankTable">
+                <a href="javascript:void(0)" title="{{ category.description }}" (click)="sortBy('statistics.' + category.property)"> {{ category.name }} </a>
+              </th>
+            </ng-container>
+            <ng-container *ngFor="let category of draft.valueCategories">
+              <th class="sorting" tabindex="0" aria-controls="rankTable">
+                <a href="javascript:void(0)" (click)="sortBy('valueStatistics.' + category.valueProperty)"> {{ category.valueName }} </a>
+              </th>
+            </ng-container>
+          </tr>
+
+          <ng-container *ngFor="let player of playersToPick | playerFilter:searchPhrase | orderBy : [currentSortOrder + currentSortProperty]">
+            <tr>
+              <td *ngIf="draft.showRankingPrice">
+                <div class="input-group-sm">
+                  <input style="width:60px" class="form-control" type="text" [(ngModel)]="player.price" onkeyup="this.value=this.value.replace(/[^\d]/,'')" />
+                </div>
+              </td>
+              <td *ngIf="draft.custom">
+                <div class="dropdown dropdown-teams">
+                  <button style="width:100%; text-align: left" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-expanded="true">
+                    <span *ngIf="!draftResults.isPicked(player)">Select</span>
+                    <span *ngIf="draftResults.isPicked(player)">{{ draftResults.pickedBy(player).name }}</span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <ng-container *ngFor="let team of draft.teamDefinitions">
+                      <li><a href="javascript:void(0)" (click)="selectPlayer(player, team)">{{ team.name }}</a></li>
+                    </ng-container>
+                  </ul>
+                </div>
+              </td>
+              <td *ngIf="excludePlayers">
+                <div [ngClass]="{'td-red': player.exclude}" class="td-inner">
+                  <a href="javascript:void(0)" (click)="player.exclude = !player.exclude; player.target = false">
+                    <span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+              </td>
+              <td *ngIf="targetPlayers">
+                <div [ngClass]="{'td-green': player.target}" class="td-inner">
+                  <a href="javascript:void(0)" (click)="player.target = !player.target; player.exclude = false"><span class="glyphicon glyphicon-ok"></span></a>
+                </div>
+              </td>
+              <td class="main" (click)="player.averagaGainCalculated ? player.showCombinations = !player.showCombinations : false" data-toggle="collapse"
+                attr.data-target=".player-{{player.id}}-combinations">
+                <ng-container *ngIf="player.averagaGainCalculated">
+                  <a href="javascript:void(0)"><span class="glyphicon glyphicon-plus" aria-hidden="true" ></span></a> {{
+                  player.averageGain}}
+                  <span *ngIf="player.averageGain > 1; then pointsText; else pointText"></span>
+                  <ng-template #pointsText>points</ng-template>
+                  <ng-template #pointText>point</ng-template>
+                </ng-container>
+                <ng-container *ngIf="!player.averagaGainCalculated">N/A</ng-container>
+              </td>
+              <td title="{{ player.value }}" class="{{ valueRate(player.value) }}">
+                {{ player.value | number: '1.2-2' }}
+                <span *ngIf="player.projection" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              </td>
+              <td *ngIf="puntCategories.hasAny()" class="{{ valueRate(player.valuePunt) }}">{{ player.valuePunt | number: '1.2-2' }}</td>
+              <td *ngIf="puntCategories.hasAny()" class="{{ valueRate(player.puntGain) }}">{{ player.puntGain | number: '1.2-2' | plussing }}</td>
+
+              <td *ngIf="draft.showRankingPrice">
+                  {{(draft.budget ? player.draftPrice * draft.budget / 200 : player.draftPrice) | number: '1.1'}}
+                  <!-- {{player.draftPrice | number: '2.1'}} -->
+              </td>
+              <td *ngIf="!draft.showRankingPrice">
+                  {{ player.adp | number: '2.1' }}
+              </td>
+
+              <td style="border-right: 1px solid #ccc;"><a href="https://www.fb-ninja.com/Players/Details/{{ player.id }}" target="_blank">{{player.name}}</a></td>
+              <td> {{player.team}} </td>
+              <td> {{player.position}} </td>
+              <td> {{ player.games }} </td>
+              <td> {{ player.mpg }}</td>
+
+              <ng-container *ngFor="let category of draft.categories">
+                <td title="{{ player.statistics[category.property] }}">
+                  {{ player.statistics[category.property] | number: '1.2-2' }}
+                </td>
+              </ng-container>
+
+              <ng-container *ngFor="let category of draft.valueCategories">
+                <td class="{{ valueRate(player.valueStatistics[category.valueProperty]) }}" title="{{ player.valueStatistics[category.valueProperty] }}">
+                  {{ player.valueStatistics[category.valueProperty] | number: '1.2-2' }}
+                </td>
+              </ng-container>
+
+            </tr>
+            <tr *ngIf="player.showCombinations" [ngClass]="{'hiddenRow': !player.showCombinations}" attr.class="player-{{player.id}}-combinations combinations">
+              <th *ngIf="draft.custom && !draft.showRankingPrice" class="border-left"></th>
+              <th *ngIf="draft.custom && draft.showRankingPrice" class="border-left" colspan="2"></th>
+              <th *ngIf="excludePlayers"></th>
+              <th *ngIf="targetPlayers"></th>
+              <th>Gain</th>
+              <th *ngIf="!puntCategories.hasAny()">Avg Value</th>
+              <th *ngIf="puntCategories.hasAny()" colspan="3">Avg Value</th>
+              <th colspan="2" class="player">
+                <div class="player-line"></div>
+                Player 2
+              </th>
+              <th colspan="3">Player 3</th>
+              <th class="border-right" attr.colspan="{{draft.categories.length + draft.valueCategories.length}}"></th>
+            </tr>
+            <ng-container>
+              <ng-container *ngFor="let combination of playerCombinations.combinationsFor(player) | orderBy: ['-gain', '-averageValue']">
+                <tr *ngIf="player.showCombinations" [ngClass]="{'hiddenRow': !player.showCombinations}" attr.class="player-{{player.id}}-combinations combinations">
+                  <td *ngIf="draft.custom && !draft.showRankingPrice" class="border-left"></td>
+                  <td *ngIf="draft.custom && draft.showRankingPrice" class="border-left" colspan="2"></td>
+                  <td *ngIf="excludePlayers"></td>
+                  <td *ngIf="targetPlayers"></td>
+                  <td class="border-left">{{ combination.gain }}</td>
+                  <td *ngIf="!puntCategories.hasAny()">{{ combination.averageValue | number: '1.2-2' }}</td>
+                  <td *ngIf="puntCategories.hasAny()" colspan="3">{{ combination.averageValue | number: '1.2-2' }}</td>
+                  <td colspan="2" class="player">
+                    <div class="player-line"></div>
+                    <img class="arrow" src="assets/images/player-arrow.png" /> {{ combination.players[1].name }}
+                  </td>
+                  <td colspan="3">{{ combination.players[2].name }}</td>
+                  <ng-container *ngFor="let category of draft.categories; let i = index">
+                    <td [ngClass]="{'border-right': i == draft.categories.length - 1 && !draft.valueCategories.length}" title="{{ combination.average(category) }}">
+                      {{ combination.average(category) | number: '1.2-2' }}
+                    </td>
+                  </ng-container>
+                  <ng-container *ngFor="let category of draft.valueCategories; let i = index">
+                    <td class="{{ valueRate(combination.valueAverage(category.valueProperty)) }}" [ngClass]="{'border-right': i == draft.valueCategories.length - 1 && draft.valueCategories.length}">
+                      {{ combination.valueAverage(category.valueProperty) | number: '1.2-2' }}
+                    </td>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </ng-container>
+            <tr *ngIf="player.showCombinations" [ngClass]="{'hiddenRow': !player.showCombinations}" attr.class="player-{{player.id}}-combinations combinations-margin">
+              <td *ngIf="draft.custom && !draft.showRankingPrice" class="border-left"></td>
+              <td *ngIf="draft.custom && draft.showRankingPrice" class="border-left" colspan="2"></td>
+              <td *ngIf="excludePlayers"></td>
+              <td *ngIf="targetPlayers"></td>
+              <td *ngIf="puntCategories.hasAny()" colspan="2"></td>
+              <td attr.colspan="{{draft.categories.length + draft.valueCategories.length + 9}}"></td>
+            </tr>
+          </ng-container>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="settings-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Change draft settings</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/Ranking/Ranking" method="post" class="form-inline">
+              <div class="row">
+                <div class="col-xs-12">
+                  <h5>League Settins</h5>
+                  <p>Since our software during the draft is analysing on a continuous basis thousands of player combinations
+                    – at this stage it’s not possible to change data period. Settings below give directions to our algorithms
+                  </p>
+                </div>
+                <div class="col-xs-12">
+                  <h5>Target players</h5>
+                  <p>Use this function if you would like to target any specific players during the draft. Our software will
+                    prioritize them during the analysis.
+                  </p>
+                  <div class="checkbox">
+                    <p>
+                      <label>
+                      <input [(ngModel)]="targetPlayersChecked" [ngModelOptions]="{standalone: true}" type="checkbox" value="">
+                      <b>Target players</b>
+                    </label>
+                    </p>
+                  </div>
+                </div>
+
+
+                <div class="col-xs-12">
+                  <h5>Exclude players</h5>
+                  <p>Use this function to exclude players who are not in your plans for the draft. Our software will then ignore
+                    them during the analysis.
+                  </p>
+                  <div class="checkbox">
+                    <p>
+                      <label>
+                      <input [(ngModel)]="excludePlayersChecked" [ngModelOptions]="{standalone: true}" type="checkbox" value="">
+                      <b>Exclude players from combinations</b>
+                    </label>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-xs-12">
+                  <h5>Include my projections </h5>
+                  <p>If you have created a set of your own projections – checking this box will include them in the analysis.
+                    You can set projections for a player on his Player Card. Icon
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span> indicates that your projection is used
+                    for that player.</p>
+                  <div class="checkbox">
+                    <p>
+                      <label>
+                      <input [(ngModel)]="includeMyProjectionsChecked" [ngModelOptions]="{standalone: true}"  type="checkbox" value="">
+                      <b>Include my projections</b>
+                    </label>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="col-xs-12">
+                  <h5>Punt Category </h5>
+                  <div class="btn-grou">
+                    <ng-container *ngFor="let category of draft.categories">
+                      <a [ngClass]="{'active': puntCategoriesChecked.isPunt(category)}" (click)="puntCategoriesChecked.toggle(category)" class="btn btn-danger btn-sm"
+                        style="width:58px">
+                    {{ category.name }}
+                  </a>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+              <hr>
+
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" (click)="cancelSettings()">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="applySettings()">Apply settings</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="no-league-details-modal" *ngIf="noLeagueData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">No league data</h4>
+          </div>
+          <div class="modal-body">
+              No league data available. Please make sure your draft is currently on and the starter params are correct.
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane fade in" id="draft-result">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div style="padding:5px;">
+            <h4>Draft results</h4>
+            <ng-container *ngFor="let rounds of draftResults.rounds; let i = index">
+              <div class="col-xs-12 col-sm-6 col-md-4">
+                <div>
+                  <table class="table table-bordered" style="text-align:center;">
+                    <tr>
+                      <th [attr.colspan]="draft.custom ? 4 : 5" style="text-align:center;">Round {{ i + 1 }}</th>
+                    </tr>
+                    <tr>
+                      <th>Pick</th>
+                      <th>Player</th>
+                      <th *ngIf="!draft.custom">Team</th>
+                      <th *ngIf="draft.showDraftResultPrice">Price</th>
+                      <th *ngIf="draft.custom">Team</th>
+                    </tr>
+                    <ng-container *ngFor="let pick of draftResults.round(i);">
+                      <tr>
+                        <td>{{ pick.pickNumber }}</td>
+                        <td>{{ pick.player.name }}</td>
+                        <td *ngIf="!draft.custom">{{ pick.teamDefinition.name }}</td>
+                        <td *ngIf="draft.showDraftResultPrice">
+                          <ng-container *ngIf="pick.price > 0">{{ pick.price }}</ng-container>
+                          <ng-container *ngIf="pick.price == 0"></ng-container>
+                        </td>
+                        <td *ngIf="draft.custom">
+                          <div *ngIf="pick.player.id" class="dropdown dropdown-teams">
+                            <span class="change-pick dropdown-toggle" type="button" data-toggle="dropdown">
+                              <span *ngIf="!draftResults.isPicked(player)">Select</span>
+                            <span *ngIf="draftResults.isPicked(pick.player)">{{ draftResults.pickedBy(pick.player).name }}</span>
+                            <span class="caret"></span>
+                            </span>
+                            <ul class="dropdown-menu">
+                              <ng-container *ngFor="let team of draft.teamDefinitions">
+                                <li><a href="javascript:void(0)" (click)="selectPlayer(pick.player, team)">{{ team.name }}</a></li>
+                              </ng-container>
+                              <li><a href="javascript:void(0)" (click)="removePlayer(pick.player)">Remove</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </table>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="my-team">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div style="padding:5px;">
+            <div class="btn-group dropdown-teams">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 {{ selectedTeamDefinition.name }} <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <ng-container *ngFor="let team of teamsDefinitionToSelect">
+                  <li><a href="javascript:void(0)" (click)="selectTeam(team)">{{ team.name }}</a></li>
+                </ng-container>
+              </ul>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered" style="text-align:center;">
+                <tr>
+                  <th></th>
+                  <th>Player</th>
+                  <th>Position</th>
+                  <ng-container *ngFor="let category of draft.categories">
+                    <th>{{ category.name }}</th>
+                  </ng-container>
+                  <th>Value</th>
+                  <th>Price</th>
+                </tr>
+                <ng-container *ngFor="let player of selectedTeam.players; let i = index" [attr.data-index]="i">
+                  <tr>
+                    <td> {{ i + 1 }}</td>
+                    <td>{{ player.name }}</td>
+                    <td>{{ player.position }}</td>
+                    <ng-container *ngFor="let category of draft.categories">
+                      <td title="{{ player.statistics[category.property] }}"> {{ player.statistics[category.property] | number: '1.2-2' }}</td>
+                    </ng-container>
+                    <td>{{ player.value | number: '1.2-2' }}</td>
+                    <td>{{ player.price }}$</td>
+                  </tr>
+                </ng-container>
+
+                <tr style="border-top:2px solid #666; font-weight:bold;">
+                  <td colspan="3" style="text-align: right; padding-right:5px;">Average</td>
+                  <ng-container *ngFor="let categoryValue of selectedTeam.ranking.average">
+                    <th title="{{ categoryValue.value }}">{{ categoryValue.value | number: '1.2-2' }}</th>
+                  </ng-container>
+                  <td>Roto points</td>
+                  <td>Rank</td>
+                </tr>
+                <tr style="font-weight:bold;">
+                  <td colspan="3" style="background-color: #a2ff9d;text-align: right;padding-right:5px;">Ninja model projected standings</td>
+                  <ng-container *ngFor="let categoryValue of selectedTeam.ranking.projectedFantasyPoints">
+                    <th>{{ categoryValue.value }}</th>
+                  </ng-container>
+                  <td style="background-color: #a2ff9d">{{ selectedTeam.ranking.totalPoints }}</td>
+                  <td style="background-color: #a2ff9d">{{ selectedTeam.ranking.place }}</td>
+                </tr>
+                <tr style="font-weight:bold;">
+                  <td colspan="3" style="text-align: right; padding-right:5px;">Projected Fantasy Points</td>
+                  <ng-container *ngFor="let categoryValue of selectedInternalRanking.ranking.projectedFantasyPoints">
+                    <th>{{ categoryValue.value }}</th>
+                  </ng-container>
+                  <td>{{ selectedInternalRanking.ranking.totalPoints }}</td>
+                  <td>{{ selectedInternalRanking.ranking.place }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div role="tabpanel" class="tab-pane" id="standings">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div style="padding:5px;">
+            <div class="table-responsive">
+              <table class="table table-bordered" style="text-align:center;">
+                <tr>
+                  <th>roto points</th>
+                  <th>Team</th>
+                  <ng-container *ngFor="let category of draft.categories">
+                    <th>{{ category.name }}</th>
+                  </ng-container>    
+                  <ng-container *ngFor="let category of draft.categories">
+                    <th>rp{{ category.name }}</th>
+                  </ng-container>   
+                  <th *ngIf="draft.showRankingPrice">
+                    $ {{ draft.budget ? "left": "spent" }}
+                  </th>                             
+                </tr>
+                <ng-container *ngFor="let team of internalRankings" >
+                  <tr>
+                    <td>{{ team.ranking.totalPoints }}</td>
+                    <td>{{ team.name }}</td>
+                    <ng-container *ngFor="let categoryValue of team.ranking.average">
+                      <td>{{ categoryValue.value | number: '1.2-2' }}</td>
+                    </ng-container>     
+                    <ng-container *ngFor="let categoryValue of team.ranking.projectedFantasyPoints">
+                      <td>{{ categoryValue.value | number: '1.0' }}</td>
+                    </ng-container>
+                    <td *ngIf="draft.showRankingPrice">
+                      {{ team.ranking.money }}
+                    </td>   
+                  </tr>
+                </ng-container>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
