@@ -4,12 +4,12 @@ import { TeamDefinition } from './team.definition';
 import { Categories } from './categories';
 import { Category } from './category'
 import { Cookie } from 'ng2-cookies';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http'
 import * as queryString from 'query-string';
 
 @Injectable()
 export class DraftService {
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getDraft(): Promise<Draft> {
     return this.load();

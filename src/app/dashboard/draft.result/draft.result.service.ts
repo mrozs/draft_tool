@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DraftResult } from './draft.result';
 import { Player } from '../player/player';
 import { TeamDefinition } from '../team.definition';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http'
 import { Draft } from '../draft';
 import { TeamPlayers } from '../team.players';
 import { BaseService } from '../../base.service';
@@ -10,7 +10,7 @@ import { BaseService } from '../../base.service';
 @Injectable()
 export class DraftResultService extends BaseService {
     private draftResults = new Array<DraftResult>();
-    constructor(private http: Http) { 
+    constructor(private http: HttpClient) { 
         super();
     }
 
@@ -43,10 +43,10 @@ export class DraftResultService extends BaseService {
        
         return this.http
         .get(url)
-        .map((res: Response) => {
+        .map(async (res: Response) => {
             let unknownPlayers = new Array<number>();
             let picks = new Array<DraftResult>();
-            for (let pick of res.json()) {
+            for (let pick of await res.json()) {
                 let player = players.filter(x => x.id == pick.PlayerId)[0];
                 let team = teamDefinitions.filter(x => x.id == pick.Team)[0];
                 if (!player) {
@@ -91,10 +91,10 @@ export class DraftResultService extends BaseService {
 
         return this.http
             .get(url)
-            .map((res: Response) => {
+            .map(async (res: Response) => {
                 let unknownPlayers = new Array<number>();
                 let picks = new Array<DraftResult>();
-                for (let pick of res.json()) {
+                for (let pick of await res.json()) {
                     let player = players.filter(x => x.id == pick.PlayerId)[0];
                     let team = teamDefinitions.filter(x => x.id == pick.Team)[0];
                     if (!player) {

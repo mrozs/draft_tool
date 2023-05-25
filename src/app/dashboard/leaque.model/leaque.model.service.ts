@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { HttpClient} from '@angular/common/http'
 import { Draft } from '../draft';
 
 @Injectable()
 export class LeaqueModelService {
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getLeagueModel(draft: Draft): Promise<any> {
     let url = (document.location.href.indexOf("ninja") == -1 ? `http://localhost/TeamMate`: ``) +  `/league/leagueModel?` +
