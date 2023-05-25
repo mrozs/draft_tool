@@ -18,15 +18,15 @@ export class PlayerService {
 
     return this.http
       .get(url)
-      .map(async (res: Response) => {
+      .map((res: Response) => {
         
         let players = new Array<Player>();
-        let rawPlayers = JSON.parse(await res.json());
-        for (let rankResult of rawPlayers) {
+        // let rawPlayers = JSON.parse(res.json());
+       /*  for (let rankResult of rawPlayers) {
           let rawPlayer = rankResult.RankResult;  
           var player = PlayerAdapter.adapt(rawPlayer, rankResult.IncludingUserProjections, rankResult.PuntValue);
           players.push(player);
-        }
+        } */
 
         return players;
       })

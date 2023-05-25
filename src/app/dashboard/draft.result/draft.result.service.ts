@@ -43,10 +43,10 @@ export class DraftResultService extends BaseService {
        
         return this.http
         .get(url)
-        .map(async (res: Response) => {
+        .map((res: Response) => {
             let unknownPlayers = new Array<number>();
             let picks = new Array<DraftResult>();
-            for (let pick of await res.json()) {
+           /*  for (let pick of res.json()) {
                 let player = players.filter(x => x.id == pick.PlayerId)[0];
                 let team = teamDefinitions.filter(x => x.id == pick.Team)[0];
                 if (!player) {
@@ -60,7 +60,7 @@ export class DraftResultService extends BaseService {
                 let draftResult = new DraftResult(pick.PickNumber, player, team)
                 draftResult.price = pick.Cost;
                 picks.push(draftResult);
-            }
+            } */
             if (unknownPlayers.length) {
                 console.log(`brak graczy ${unknownPlayers}`)
             }
@@ -91,10 +91,10 @@ export class DraftResultService extends BaseService {
 
         return this.http
             .get(url)
-            .map(async (res: Response) => {
+            .map((res: Response) => {
                 let unknownPlayers = new Array<number>();
                 let picks = new Array<DraftResult>();
-                for (let pick of await res.json()) {
+                /* for (let pick of await res.json()) {
                     let player = players.filter(x => x.id == pick.PlayerId)[0];
                     let team = teamDefinitions.filter(x => x.id == pick.Team)[0];
                     if (!player) {
@@ -108,7 +108,7 @@ export class DraftResultService extends BaseService {
                     let draftResult = new DraftResult(pick.PickNumber, player, team)
                     draftResult.price = pick.Cost;
                     picks.push(draftResult);
-                }
+                } */
                 if (unknownPlayers.length) {
                     console.log(`brak graczy ${unknownPlayers}`)
                 }

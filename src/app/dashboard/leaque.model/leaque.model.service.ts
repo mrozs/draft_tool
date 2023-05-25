@@ -15,9 +15,9 @@ export class LeaqueModelService {
 
     return this.http
       .get(url)
-      .map((res: Response) => {
+      /* .map((res: Response) => {
         return res.json();
-      })
+      }) */
       .toPromise();
   }
 }
